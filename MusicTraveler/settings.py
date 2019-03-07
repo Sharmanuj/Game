@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     # 'allauth.socialaccount.providers.facebook',
     'django_countries',
     'address',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -174,6 +175,7 @@ AUTH_USER_MODEL='accounts.User'
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS=[os.path.join(BASE_DIR,'static'),]
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 import mimetypes
 
