@@ -1,0 +1,10 @@
+/cannot_delete_primary_email.txt
+/email_confirmation_sent.txt
+/email_confirmed.txt
+/email_deleted.txt
+/logged_in.txt
+/logged_out.txt
+/password_changed.txt
+/password_set.txt
+/primary_email_set.txt
+/unverified_primary_email.txt

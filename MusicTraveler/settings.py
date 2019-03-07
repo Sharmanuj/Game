@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.github',
     # 'allauth.socialaccount.providers.amazon',
     # 'allauth.socialaccount.providers.facebook',
+    'django_countries',
+    'address',
 ]
 
 MIDDLEWARE = [
@@ -65,7 +67,7 @@ ROOT_URLCONF = 'MusicTraveler.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'templates')],
+        'DIRS': [os.path.join(BASE_DIR,'templates'),os.path.join(BASE_DIR,'templates','allauth')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -140,12 +142,12 @@ SOCIALACCOUNT_PROVIDERS = {
             'read:org',
         ],
     },
-    'google': {
-        'SCOPE': [
-            'user',
-            'email',
-        ],
-    }
+    # 'google': {
+    #     'SCOPE': [
+            # 'user',
+    #         'email',
+    #     ],
+    # }
 }
 
 # Internationalization
@@ -161,6 +163,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+GOOGLE_API_KEY='AIzaSyCFKpGqJeiZ3t0ZZLo0tQz-k0HsUZ7R5Zk'
 
 # Custom User model
 

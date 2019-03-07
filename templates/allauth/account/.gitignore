@@ -1,0 +1,16 @@
+/account_inactive.html
+/base.html
+/email.html
+/email_confirm.html
+/login.html
+/logout.html
+/password_change.html
+/password_reset.html
+/password_reset_done.html
+/password_reset_from_key.html
+/password_reset_from_key_done.html
+/password_set.html
+/signup.html
+/signup_closed.html
+/verification_sent.html
+/verified_email_required.html
