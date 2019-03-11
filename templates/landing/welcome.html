@@ -6,9 +6,9 @@
 <div class="container">
     
 {%if user.is_host%}
-<a href="" class="btn btn-primary">Add a room</a><br><br>
+<a href={%url 'room:add'%} class="btn btn-primary">Add a room</a><br><br>
 <a href="" class="btn btn-primary">comfirm/cancel booking</a><br><br>
-{%else%}
+{%elif not user.applied_to_host%}
 <a href={%url 'accounts:becomehost'%} class="btn btn-primary">Become a Host</a><br><br>
 {%endif%}
 <a href="" class="btn btn-primary">Make a booking</a><br><br>

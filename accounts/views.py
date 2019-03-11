@@ -19,6 +19,8 @@ class BecomeHost(PermissionRequiredMixin,views.generic.FormView):
     def form_valid(self,form):
         print("valid")
         user=get_object_or_404(User,pk=self.request.user.id)
+        user.applied_to_host=True
+        user.save()
         host=Host(address=form.data.get('address'),country=form.data.get('country'),user=user)
         host.save()
         cc=CreditCardNumber(cc_no=form.data.get('cc_no'),user=user)

@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'room.apps.RoomConfig',
     'landing.apps.LandingConfig',
     'accounts.apps.AccountsConfig',
     'django.contrib.admin',
@@ -50,6 +51,7 @@ INSTALLED_APPS = [
     # 'allauth.socialaccount.providers.amazon',
     # 'allauth.socialaccount.providers.facebook',
     'django_countries',
+    'cities_light',
     'address',
     'crispy_forms',
 ]
