@@ -31,6 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # 'booking.apps.BookingConfing',
+    'instrument.apps.InstrumentConfig',
+    'room.apps.RoomConfig',
     'accounts.apps.AccountsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -89,9 +92,9 @@ WSGI_APPLICATION = 'MusicTraveler.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'MusicTraveler',
-        'USER':'root',
-        'PASSWORD':'admin',
+        'NAME': 'musictraveler',
+        'USER':'anuj',
+        'PASSWORD':'anuj',
         'HOST':'localhost',
         'PORT':'5432',
     }

@@ -17,9 +17,14 @@ from django.contrib import admin
 from django.urls import path,include
 from django.conf.urls import url
 from . import views
+
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'home',views.home,name='home'),
     url(r'^accounts/', include('allauth.urls')),
-    # path(r'accounts',include('accounts.urls'))
+    path(r'room',include('room.urls')),
+    path(r'instrument',include('instrument.urls')),
+    path(r'booking',include('booking.urls')),
 ]
