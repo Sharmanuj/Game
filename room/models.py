@@ -10,3 +10,8 @@ class Place(models.Model):
     region=models.ForeignKey('cities_light.region',on_delete=models.CASCADE)
     country=models.ForeignKey('cities_light.Country',on_delete=models.CASCADE)
     user=models.ForeignKey(User,on_delete=models.CASCADE)
+
+
+class Timing(models.Model):
+    slot=models.TimeField()
+    price=models.DecimalField(max_digits=3,decimal_places=2)
