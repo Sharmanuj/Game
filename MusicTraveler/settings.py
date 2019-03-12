@@ -31,9 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    # 'booking.apps.BookingConfing',
     'instrument.apps.InstrumentConfig',
     'room.apps.RoomConfig',
+    'landing.apps.LandingConfig',
     'accounts.apps.AccountsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -52,7 +52,9 @@ INSTALLED_APPS = [
     # 'allauth.socialaccount.providers.amazon',
     # 'allauth.socialaccount.providers.facebook',
     'django_countries',
+    'cities_light',
     'address',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -130,11 +132,11 @@ SITE_ID = 1
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_USERNAME_REQUIRED = False
-SOCIALACCOUNT_AUTO_SIGNUP = False
+SOCIALACCOUNT_AUTO_SIGNUP = True
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' 
 
-LOGIN_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = 'landing:welcome'
 
 SOCIALACCOUNT_PROVIDERS = {
     'github': {
@@ -177,6 +179,7 @@ AUTH_USER_MODEL='accounts.User'
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS=[os.path.join(BASE_DIR,'static'),]
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 import mimetypes
 
