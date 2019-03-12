@@ -23,12 +23,11 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'home',views.home,name='home'),
-    path(r'room',include('room.urls')),
     path(r'instrument',include('instrument.urls')),
     path(r'booking',include('booking.urls')),
     path('',include('landing.urls')),
-#     path('',include('accounts.urls')),
+    # path('',include('accounts.urls')),
     path('room/',include('room.urls')),
     path('accounts/', include('allauth.urls')),
-    # path(r'accounts',include('accounts.urls'))
+    path('accounts/',include('accounts.urls'))
 ]

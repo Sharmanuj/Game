@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'cities_light',
     'address',
     'crispy_forms',
+    'djmoney',
 ]
 
 MIDDLEWARE = [
@@ -94,9 +95,9 @@ WSGI_APPLICATION = 'MusicTraveler.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'musictraveler',
-        'USER':'anuj',
-        'PASSWORD':'anuj',
+        'NAME': 'MusicTraveler',
+        'USER':'root',
+        'PASSWORD':'admin',
         'HOST':'localhost',
         'PORT':'5432',
     }
