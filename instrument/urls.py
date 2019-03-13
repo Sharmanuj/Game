@@ -4,5 +4,5 @@ from . import views
 app_name='instrument'
 
 urlpatterns=[
-    path('',views.InstrumentForm.as_view(),name='instrument'),
+    # path('',views.InstrumentForm.as_view(),name='instrument'),
 ]

@@ -26,8 +26,8 @@ urlpatterns = [
     path(r'instrument',include('instrument.urls')),
     path(r'booking',include('booking.urls')),
     path('',include('landing.urls')),
-#     path('',include('accounts.urls')),
+    # path('',include('accounts.urls')),
     path('room/',include('room.urls')),
     path('accounts/', include('allauth.urls')),
-    # path(r'accounts',include('accounts.urls'))
+    path('accounts/',include('accounts.urls'))
 ]
