@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render,reverse,redirect,HttpResponseRedirect
 from .forms import *
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.core import serializers
 from django.shortcuts import render,HttpResponse,get_object_or_404
@@ -9,15 +10,37 @@ from .forms import *
 from django.views import generic
 from .models import *
 # Create your views here.
-class AddRoom(views.View):
-    def get(self,request):
-        return render(request,'room/add.html')
+# class AddRoom(views.View):
+#     def get(self,request):
+#         return render(request,'room/add.html')
 
-class AddPlace(views.generic.edit.FormView):
+class AddRoom(LoginRequiredMixin,views.generic.edit.FormView):
+    template_name='room/add.html'
+    form_class=AddRoomForm
+    # def get(self,request):
+    #     return render(request,'room/add.html')
+    def get_context_data(self,**kwargs):
+        context=super(AddRoom,self).get_context_data(**kwargs)
+        context['places']=Place.objects.filter(user=self.request.user)
+        print(context)
+        return context
+
+class AddPlace(LoginRequiredMixin,views.generic.edit.CreateView):
+    model=Place
     form_class=AddPlaceForm
+    template_name='room/addplace.html'
+    def form_valid(self,form):
+        print(self.request.user.id)
+        form.instance.user=self.request.user
+        return super(AddPlace,self).form_valid(form)
+        # return HttpResponseRedirect(reverse('landing:welcome'))
+    def form_invalid(self,form):
+        super().form_invalid(form)
+        return render(self.request,'room/addplace.html',{'form':form})
+    
+    def get_success_url(self):
+        return reverse('landing:welcome')
 
-# def add(request):
-    # return render(request,'room/add.html')
 
 def CountryLookup(request):
     cou=serializers.serialize('json',Country.objects.all())
@@ -31,14 +54,3 @@ def CityLookup(request,pk):
     cou=serializers.serialize('json',City.objects.all().filter(region_id=pk))
     return JsonResponse(cou,safe=False)
  
-class CustomerFormView(generic.edit.FormView):
-    template_name='room/room.html'
-    form_class=UserForm
-    # success_url='//'
-    
-    def form_valid(self,form):
-        msg=""
-        capacity=form.data.get("capacity")
-        size=form.data.get("size")
-        address = form.data.get("address")
-        postal_code = form.data.get("postal_code")
