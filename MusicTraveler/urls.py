@@ -30,4 +30,5 @@ urlpatterns = [
     path('room/',include('room.urls')),
     path('accounts/', include('allauth.urls')),
     # path(r'accounts',include('accounts.urls'))
+    path(r'rating/',include('rating.url')),
 ]
