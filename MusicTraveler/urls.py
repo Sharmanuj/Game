@@ -29,5 +29,6 @@ urlpatterns = [
     # path('',include('accounts.urls')),
     path('room/',include('room.urls')),
     path('accounts/', include('allauth.urls')),
-    path('accounts/',include('accounts.urls'))
+    # path(r'accounts',include('accounts.urls'))
+    path(r'rating/',include('rating.url')),
 ]
