@@ -16,14 +16,24 @@ from .models import *
 
 class AddRoom(LoginRequiredMixin,views.generic.edit.FormView):
     template_name='room/add.html'
-    form_class=AddRoomForm
-    # def get(self,request):
-    #     return render(request,'room/add.html')
-    def get_context_data(self,**kwargs):
-        context=super(AddRoom,self).get_context_data(**kwargs)
-        context['places']=Place.objects.filter(user=self.request.user)
-        print(context)
-        return context
+    # form_class=AddRoomForm()
+    # def get_context_data(self,**kwargs):
+    #     context=super(AddRoom,self).get_context_data(**kwargs)
+    #     context['places']=Place.objects.filter(user=self.request.user)
+    #     return context
+    # form=AddRoomForm()
+    # def get_form(self, form_class=None):
+    #     form = super(AddRoom, self).get_form()
+    #     return form
+
+    def get_form_kwargs(self):
+        kwargs=super(AddRoom,self).get_form_kwargs()
+        kwargs.update({'user':self.request.user})
+        return kwargs
+
+    def get_form_class(self):
+        form_class_name=AddRoomForm
+        return form_class_name
 
 class AddPlace(LoginRequiredMixin,views.generic.edit.CreateView):
     model=Place

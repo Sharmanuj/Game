@@ -10,7 +10,8 @@ from djmoney.models.fields import MoneyField
     
 class Place(models.Model):
     def __str__(self):
-        return "{}_{}".format(self.user.username,self.address)
+        # return "{}_{}".format(self.user.username,self.address)
+        return "{}".format(self.address)
     address=models.CharField(max_length=1024)
     city=models.ForeignKey('cities_light.City',on_delete=models.CASCADE)
     region=models.ForeignKey('cities_light.region',on_delete=models.CASCADE)
