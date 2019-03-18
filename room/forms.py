@@ -20,10 +20,18 @@ class AddRoomForm(forms.ModelForm):
     def __init__(self, **kwargs):
         user=kwargs.pop('user')
         super(AddRoomForm, self).__init__(**kwargs)
-        print(self)
         self.fields['place'].queryset=Place.objects.filter(user=user)
 
 class AddPlaceForm(forms.ModelForm):
     class Meta:
         model=Place
         fields=['address','country','region','city']
+
+class ManageSlotsForm(forms.ModelForm):
+    class Meta:
+        model=StaticSchedule
+        fields=['slot','price']
+        widgets={
+            'slot':forms.CheckboxSelectMultiple(),
+            # 'price':forms.NumberInput()
+        }

@@ -29,7 +29,7 @@ class Room(models.Model):
     place=models.ForeignKey(Place,on_delete=models.CASCADE)
 
     def __str__(self):
-        return "{}_{}".format(self.place.user.username,self.name)
+        return "{}".format(self.name)
 
     class Meta:
         app_label = 'room'
@@ -47,6 +47,8 @@ class Slot(models.Model):
     # room=models.ForeignKey(Room,on_delete=models.CASCADE)
 
 class StaticSchedule(models.Model):
+    def __str__(self):
+        return "{}_{}".format(self.room,self.slot)
     room=models.ForeignKey(Room,on_delete=models.CASCADE)
     slot=models.ForeignKey(Slot,on_delete=models.CASCADE)
     is_active=models.BooleanField(default=False)

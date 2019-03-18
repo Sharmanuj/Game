@@ -4,3 +4,4 @@ from .models import *
 admin.site.register(Place)
 admin.site.register(Room)
 admin.site.register(Slot)
+admin.site.register(StaticSchedule)

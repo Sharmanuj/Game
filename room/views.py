@@ -5,14 +5,12 @@ from django.http import JsonResponse
 from django.core import serializers
 from django.shortcuts import render,HttpResponse,get_object_or_404
 from django import views
+from datetime import time
 from cities_light.models import Country,Region,City
 from .forms import *
 from django.views import generic
 from .models import *
 # Create your views here.
-# class AddRoom(views.View):
-#     def get(self,request):
-#         return render(request,'room/add.html')
 
 class AddRoom(LoginRequiredMixin,views.generic.edit.FormView):
     template_name='room/add.html'
@@ -34,6 +32,22 @@ class AddRoom(LoginRequiredMixin,views.generic.edit.FormView):
     def get_form_class(self):
         form_class_name=AddRoomForm
         return form_class_name
+    
+    def form_valid(self,form):
+        print(form.cleaned_data.get('instrument'))
+        room=form.save()
+        print(room.instrument)
+        for i in range(1,24):
+            slot=Slot.objects.get(pk=i)
+            StaticSchedule.objects.create(room=room,slot=Slot.objects.get(pk=i))
+            # slot=Slot.objects.create(i)
+            # print(slot)
+        return redirect('room:ManageSlots',room.id)
+        return HttpResponse('')
+
+class ManageSlots(LoginRequiredMixin,views.generic.edit.FormView):
+    form_class=ManageSlotsForm
+    template_name='room/ManageSlots.html'
 
 class AddPlace(LoginRequiredMixin,views.generic.edit.CreateView):
     model=Place
@@ -63,4 +77,7 @@ def RegionLookup(request,pk):
 def CityLookup(request,pk):
     cou=serializers.serialize('json',City.objects.all().filter(region_id=pk))
     return JsonResponse(cou,safe=False)
- 
+
+def CreateSlots(request):
+    for i in range(24):
+        Slot.objects.create(slot=time(i))

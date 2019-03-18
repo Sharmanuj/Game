@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'rating.apps.RatingConfig',
+    # 'rating.apps.RatingConfig',
     'instrument.apps.InstrumentConfig',
     'room.apps.RoomConfig',
     'landing.apps.LandingConfig',

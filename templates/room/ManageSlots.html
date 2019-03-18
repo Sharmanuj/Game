@@ -1,0 +1,9 @@
+{%extends 'base.html'%}
+{%load crispy_forms_tags%}
+{%block content%}
+<div class="form-group form-horizontal">
+    <form style="text-align:center;width: 380px;margin: 0 auto;" method="POST">
+        {{form|crispy}}
+    </form>
+</div>
+{%endblock%}
