@@ -1,9 +1,20 @@
 {%extends 'base.html'%}
 {%load crispy_forms_tags%}
+{%block extra_head%}
+    <script>
+        $.ajax({
+            url:"{% url 'room:get_slots' room.id %}",
+        })
+    </script>
+{%endblock%}
 {%block content%}
 <div class="form-group form-horizontal">
     <form style="text-align:center;width: 380px;margin: 0 auto;" method="POST">
-        {{form|crispy}}
+        <!-- {{form|crispy}} -->
+        {{room}}
+        {%for slot in slots%}
+        {{slot.day}}
+        {%endfor%}
     </form>
 </div>
 {%endblock%}

@@ -34,6 +34,12 @@ class Room(models.Model):
     class Meta:
         app_label = 'room'
 
+class Day(models.Model):
+    def __str__(self):
+        return self.day
+    day=models.CharField(max_length=10)
+
+
 class Slot(models.Model):
     def __str__(self):
         return "{}".format(self.slot)
@@ -51,7 +57,8 @@ class StaticSchedule(models.Model):
         return "{}_{}".format(self.room,self.slot)
     room=models.ForeignKey(Room,on_delete=models.CASCADE)
     slot=models.ForeignKey(Slot,on_delete=models.CASCADE)
-    is_active=models.BooleanField(default=False)
+    day=models.ForeignKey(Day,on_delete=models.CASCADE)
+    # is_active=models.BooleanField(default=False)
     price = MoneyField(
         decimal_places=2,
         default=0,

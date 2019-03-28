@@ -1,6 +1,6 @@
 from django.shortcuts import render,reverse,redirect,HttpResponseRedirect
 from .forms import *
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
 from django.http import JsonResponse
 from django.core import serializers
 from django.shortcuts import render,HttpResponse,get_object_or_404
@@ -37,17 +37,31 @@ class AddRoom(LoginRequiredMixin,views.generic.edit.FormView):
         print(form.cleaned_data.get('instrument'))
         room=form.save()
         print(room.instrument)
-        for i in range(1,24):
-            slot=Slot.objects.get(pk=i)
-            StaticSchedule.objects.create(room=room,slot=Slot.objects.get(pk=i))
+        for day in Day.objects.all():
+            for i in range(1,24):
+                slot=Slot.objects.get(pk=i)
+                StaticSchedule.objects.create(room=room,slot=Slot.objects.get(pk=i),day=day)
             # slot=Slot.objects.create(i)
             # print(slot)
         return redirect('room:ManageSlots',room.id)
-        return HttpResponse('')
+        # return HttpResponse('')
 
-class ManageSlots(LoginRequiredMixin,views.generic.edit.FormView):
-    form_class=ManageSlotsForm
-    template_name='room/ManageSlots.html'
+# class ManageSlots(LoginRequiredMixin,views.generic.edit.FormView):
+#     form_class=ManageSlotsForm
+#     template_name='room/ManageSlots.html'
+
+class ManageSlots(LoginRequiredMixin,PermissionRequiredMixin,views.View):
+    def has_permission(self):
+            room=Room.objects.get(pk=int(self.kwargs['pk']))
+            if room.place.user==self.request.user:
+                return True
+            return False
+
+    def get(self,request,pk):
+        context={}
+        context['room']=Room.objects.get(pk=pk)
+        context['slots']=StaticSchedule.objects.filter(room=context['room'])
+        return render(request,'room/ManageSlots.html',context=context)
 
 class AddPlace(LoginRequiredMixin,views.generic.edit.CreateView):
     model=Place
@@ -81,3 +95,8 @@ def CityLookup(request,pk):
 def CreateSlots(request):
     for i in range(24):
         Slot.objects.create(slot=time(i))
+
+def send_slots_by_day(request,pk):
+    schedule=serializers.serialize('json',StaticSchedule.objects.filter(room=Room.objects.get(pk=pk)).order_by('day'))
+    print(schedule)
+    return HttpResponse('')
