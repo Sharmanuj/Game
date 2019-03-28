@@ -82,6 +82,7 @@ class AddPlace(LoginRequiredMixin,views.generic.edit.CreateView):
 
 def CountryLookup(request):
     cou=serializers.serialize('json',Country.objects.all())
+    # print(cou)
     return JsonResponse(cou,safe=False)
 
 def RegionLookup(request,pk):
@@ -97,6 +98,7 @@ def CreateSlots(request):
         Slot.objects.create(slot=time(i))
 
 def send_slots_by_day(request,pk):
+    # schedule=StaticSchedule.objects.filter(room=Room.objects.get(pk=pk)).order_by('day')
     schedule=serializers.serialize('json',StaticSchedule.objects.filter(room=Room.objects.get(pk=pk)).order_by('day'))
-    print(schedule)
-    return HttpResponse('')
+    # print(schedule)
+    return JsonResponse(schedule,safe=False)

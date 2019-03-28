@@ -4,17 +4,43 @@
     <script>
         $.ajax({
             url:"{% url 'room:get_slots' room.id %}",
+            success:function(response){
+                response=JSON.parse(response)
+                for(slot in response)
+                {
+                    // console.log(response[slot])
+                }
+                render(response,0)
+                }
         })
+        function render(response,day){
+            days=['Monday','Tuesday','Wednesday','Thrusday','Friday','Saturday','Sunday']
+            days={'Monday':0,'Tuesday':1,'Wednesday':2,'Thrusday':3,'Friday':4,'Saturday':5,'Sunday':6}
+            // console.log(response)
+            var x=''
+            for(slot in response){
+                if (response[slot].fields.slot==1)
+                {
+                    x="<tr>"+response[slot].fields.price+"</tr>"
+                }
+                // break
+            }
+            console.log(x)
+            $('#price_table').html(x)
+        }
     </script>
 {%endblock%}
 {%block content%}
 <div class="form-group form-horizontal">
     <form style="text-align:center;width: 380px;margin: 0 auto;" method="POST">
+        <div id="price">
+            <table id="price_table" border="2">
+                <th>Price</th>
+                <!-- <tr>{{slots}}</tr> -->
+            </table>
         <!-- {{form|crispy}} -->
         {{room}}
-        {%for slot in slots%}
-        {{slot.day}}
-        {%endfor%}
+        </div>
     </form>
 </div>
 {%endblock%}

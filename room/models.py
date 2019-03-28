@@ -54,7 +54,7 @@ class Slot(models.Model):
 
 class StaticSchedule(models.Model):
     def __str__(self):
-        return "{}_{}".format(self.room,self.slot)
+        return "{}_{}_{}".format(self.room,self.day,self.slot)
     room=models.ForeignKey(Room,on_delete=models.CASCADE)
     slot=models.ForeignKey(Slot,on_delete=models.CASCADE)
     day=models.ForeignKey(Day,on_delete=models.CASCADE)
