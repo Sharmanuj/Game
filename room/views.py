@@ -60,7 +60,8 @@ class ManageSlots(LoginRequiredMixin,PermissionRequiredMixin,views.View):
     def get(self,request,pk):
         context={}
         context['room']=Room.objects.get(pk=pk)
-        context['slots']=StaticSchedule.objects.filter(room=context['room'])
+        context['days']=Day.objects.all()
+        context['slots']=StaticSchedule.objects.filter(room__pk=pk).order_by('day')
         return render(request,'room/ManageSlots.html',context=context)
 
 class AddPlace(LoginRequiredMixin,views.generic.edit.CreateView):
@@ -99,6 +100,7 @@ def CreateSlots(request):
 
 def send_slots_by_day(request,pk):
     # schedule=StaticSchedule.objects.filter(room=Room.objects.get(pk=pk)).order_by('day')
-    schedule=serializers.serialize('json',StaticSchedule.objects.filter(room=Room.objects.get(pk=pk)).order_by('day'))
+    schedule=serializers.serialize('json',StaticSchedule.objects.filter(room__pk=pk).order_by('day'))
     # print(schedule)
-    return JsonResponse(schedule,safe=False)
+    return HttpResponse(StaticSchedule.objects.filter(room__pk=pk).order_by('day'))
+    # return JsonResponse(schedule,safe=False)s
