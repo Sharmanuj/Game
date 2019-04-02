@@ -50,15 +50,18 @@
                     <table id="price_table" border="2">
                         <th>Slot</th>  
                         <th>Price</th>
-                        <th>New Price</th>
                         {%for slot in slots%}
-                            {%if slot.day == day%}
-                            <tr><td><input type="checkbox" value="{{slot.slot}}"><br>{{slot.slot}}</td><td>{{slot.day}}</td></tr>
-                            {%endif%}
+                                {%if slot.day == day%}
+                                
+                                <tr><td><input type="checkbox" value="{{slot.slot}}"><br>{{slot.slot}}</td><td name='{{slot.id}}' class="{{day}} {{slot.slot}}" value='{{slot.price}}'>{{slot.price}}</td></tr>
+                                {%endif%}
                         {%endfor%}
                     </table>
                 </div>
                 {%endfor%}
+                <label for="#price">Price</label>
+                <input type="number" id="price-box"><br>
+                <button type="button" id="set-all-days">Set to all days</button>
         <!-- {{form|crispy}} -->
         <!-- {{room}} -->
         </div>
@@ -69,6 +72,20 @@
                 $(".price-div").hide()
                 $("#price"+id).show()
             }
+
+            $('#set-all-days').click(function(){
+                price=$("#price-box").val()
+                console.log(price)
+                selected=$('input[type="checkbox"]:checked').each(function(data){
+                    console.log(this.value)
+                    $(':checkbox[value="'+this.value+'"]').each(function(){
+                        // console.log(this)
+                    }).prop('checked',true)
+                    $('tbody tr td.'+this.value+'').each(function(){
+                        console.log("this")
+                    })
+                })
+            })
         </script>
 </div>
 {%endblock%}
