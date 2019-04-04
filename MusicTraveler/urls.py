@@ -24,7 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'home',views.home,name='home'),
     path(r'instrument',include('instrument.urls')),
-    path(r'booking',include('booking.urls')),
+    path(r'booking/',include('booking.urls')),
     path('',include('landing.urls')),
     # path('',include('accounts.urls')),
     path('room/',include('room.urls')),

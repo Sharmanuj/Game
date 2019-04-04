@@ -13,6 +13,7 @@ class Booking(models.Model):
         default_currency='USD',
         max_digits=11,
     )
+    order_date=models.DateTimeField(auto_now=True)
     # duration = models.DurationField('Duration',)
     # slot_end_time = models.TimeField('Show End Time (Optional)',blank=True, null=True )
     options=[
