@@ -38,7 +38,8 @@
 {%endblock%}
 {%block content%}
 <div class="form-group form-horizontal">
-    <form style="text-align:center;width: 380px;margin: 0 auto;" method="POST">
+    <form id="form" style="text-align:center;width: 380px;margin: 0 auto;" method="POST">
+        {%csrf_token%}
         <div id="price">
             <table border="2">
                 {%for day in days%}
@@ -47,21 +48,22 @@
             </table>
                 {%for day in days%}
                 <div id="price{{day.id}}" class="price-div">
-                    <table id="price_table" border="2">
+                    <table id="price_table" class="price_table"border="2">
                         <th>Slot</th>  
                         <th>Price</th>
                         {%for slot in slots%}
                                 {%if slot.day == day%}
                                 
-                                <tr><td><input type="checkbox" value="{{slot.slot}}"><br>{{slot.slot}}</td><td name='{{slot.id}}' class="{{day}} {{slot.slot}}" value='{{slot.price}}'>{{slot.price}}</td></tr>
+                                <tr><td><input type="checkbox" name="{{slot.id}}" value="{{slot.slot}}"><br>{{slot.slot}}</td><td name='{{slot.id}}' class="pricebox {{day}} {{slot.slot}}" value='{{slot.price}}'><input type="text" style="width:50px;" class="{{day}} {{slot.slot}} {{slot.id}}" value="{{slot.price}}" readonly></td></tr>
                                 {%endif%}
                         {%endfor%}
                     </table>
                 </div>
                 {%endfor%}
                 <label for="#price">Price</label>
-                <input type="number" id="price-box"><br>
-                <button type="button" id="set-all-days">Set to all days</button>
+                <input type="number" id="price-box" name="price"><br>
+                <button type="button" class="btn btn-success" id="set-slots">Set Slots</button>
+                <button type="button" class="btn btn-danger" id="set-all-days">Set to all days</button>
         <!-- {{form|crispy}} -->
         <!-- {{room}} -->
         </div>
@@ -73,19 +75,51 @@
                 $("#price"+id).show()
             }
 
+            $('#set-slots').click(SetSlots)
+
             $('#set-all-days').click(function(){
-                price=$("#price-box").val()
-                console.log(price)
                 selected=$('input[type="checkbox"]:checked').each(function(data){
+
                     console.log(this.value)
+                    slot=this.value
+
                     $(':checkbox[value="'+this.value+'"]').each(function(){
                         // console.log(this)
                     }).prop('checked',true)
-                    $('tbody tr td.'+this.value+'').each(function(){
+
+                    $('table.price_table > tr > td.'+this.value+'').each(function(){
                         console.log("this")
                     })
                 })
+                SetSlots()
             })
+
+            function SetSlots(){
+                console.log($('#form'))
+                var formdata=$('#form').serializeArray()
+                $.ajax({
+                    url:"{% url 'room:set-slots' room.id %}",
+                    type:'POST',
+                    data:formdata,
+                    success: function(response){
+                        console.log(response)
+                        $('input[type="checkbox"]:checked').each(function(data){
+                            console.log(this.value)
+                            slot=this.value
+                            id=this.name
+                            price=$("#price-box").val()
+                            $("input[type='text']").each(function(){
+                            if($(this).hasClass(slot)&& $(this).hasClass(id))
+                                {
+                                    // console.log(this)
+                                    this.value="$"+price
+                                }
+                            })
+                            $('input[type="checkbox"]').prop('checked',false)
+                        })
+                    }
+                })
+            }
         </script>
 </div>
 {%endblock%}

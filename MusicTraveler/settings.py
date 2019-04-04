@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     # 'rating.apps.RatingConfig',
+    'booking.apps.BookingConfig',
     'instrument.apps.InstrumentConfig',
     'room.apps.RoomConfig',
     'landing.apps.LandingConfig',

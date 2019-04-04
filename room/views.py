@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixi
 from django.http import JsonResponse
 from django.core import serializers
 from django.shortcuts import render,HttpResponse,get_object_or_404
+from django.db.models import Q
 from django import views
 from datetime import time
 from cities_light.models import Country,Region,City
@@ -61,7 +62,7 @@ class ManageSlots(LoginRequiredMixin,PermissionRequiredMixin,views.View):
         context={}
         context['room']=Room.objects.get(pk=pk)
         context['days']=Day.objects.all()
-        context['slots']=StaticSchedule.objects.filter(room__pk=pk).order_by('day')
+        context['slots']=StaticSchedule.objects.filter(room__pk=pk).order_by('slot')
         return render(request,'room/ManageSlots.html',context=context)
 
 class AddPlace(LoginRequiredMixin,views.generic.edit.CreateView):
@@ -79,6 +80,29 @@ class AddPlace(LoginRequiredMixin,views.generic.edit.CreateView):
     
     def get_success_url(self):
         return reverse('landing:welcome')
+
+class SetRoomSlots(LoginRequiredMixin,PermissionRequiredMixin,generic.edit.View):
+    def has_permission(self):
+        room=get_object_or_404(Room,pk=self.kwargs['pk'])
+        if room.place.user==self.request.user or self.request.user.is_superuser:
+            self.room=room
+            return True
+        return False
+    def post(self,request,pk):
+        # print(request.POST.items())
+        # request.POST.pop('csrfmiddlewaretoken')
+        # room=get_object_or_404(Room,pk=pk)
+        price=request.POST.get('price')
+        for key,value in request.POST.items():
+            if key.isdigit():
+                schedule=StaticSchedule.objects.filter(room=self.room)
+                slot=StaticSchedule.objects.get(Q(room=self.room) & Q(pk=key))
+                # slot=slot.objects.get(pk=key)
+                slot.price=price
+                slot.save()
+                print(slot)
+                # print(key,value)
+        return HttpResponse("Success")
 
 
 def CountryLookup(request):
